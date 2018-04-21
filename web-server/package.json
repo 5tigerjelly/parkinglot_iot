@@ -1,0 +1,22 @@
+{
+  "name": "parkinglot_iot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/5tigerjelly/parkinglot_iot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/5tigerjelly/parkinglot_iot/issues"
+  },
+  "homepage": "https://github.com/5tigerjelly/parkinglot_iot#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
