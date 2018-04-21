@@ -20,7 +20,8 @@ app.get('/', function(req, res){
 // a GET request will be made with the lotID
 // only returns if the lotID is full or not (boolean)
 app.get('/:lotID', function(req, res){
-
+    var freeSpace = getParkingSpaceByLot(req.params.lotID);
+    res.json(freeSpace);
 });
 
 // a POST request will be made with the lotID 
@@ -41,7 +42,13 @@ app.post('/', function(req, res){
 // return the current status of empty spots of each parking lot 
 // and the spaces per floor in JSON format.
 function getCurrParkingStatus(){
+    
+}
 
+// return an int of how many parking spots are available in 
+// that current lot.
+function getParkingSpaceByLot(lotName){
+    return db.lot[lotName]['space'];
 }
 
 // When a parking space changes from empty to occupy or occupy to empty

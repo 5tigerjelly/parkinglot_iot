@@ -1,7 +1,7 @@
 module.exports = {
     lot:{
-        NP2:{
-            'space': 0,
+        "NP2":{
+            'space': 24,
             P1:{
                 'space': 0,
                 1:{},
@@ -34,7 +34,7 @@ module.exports = {
                 4:{},
             }
         },
-        NP4:{
+        "NP4":{
             P1:{
                 1:{},
                 2:{},
@@ -90,7 +90,7 @@ module.exports = {
                 4:{},
             }
         },
-        NP5:{
+        "NP5":{
             P1:{
                 1:{},
                 2:{},
@@ -122,7 +122,7 @@ module.exports = {
                 4:{},
             },
         },
-        Terrace:{
+        "Terrace":{
             P1:{
                 1:{},
                 2:{},
@@ -142,7 +142,7 @@ module.exports = {
                 4:{},
             },
         },
-        Tower:{
+        "Tower":{
             P1:{
                 1:{},
                 2:{},
