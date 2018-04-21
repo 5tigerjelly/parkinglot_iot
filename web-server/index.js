@@ -4,6 +4,8 @@ const app = express();
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded());
 
+var db = require('./db');
+
 // this will be used by the client devices to get status of all lots
 // will return every lot and their number of free spots
 app.get('/', function(req, res){
