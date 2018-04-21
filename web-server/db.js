@@ -1,7 +1,7 @@
 module.exports = {
     lot:{
         NP2:{
-            'space': 0,
+            'space': 24,
             P1:{
                 'space': 0,
                 1:{},
