@@ -28,7 +28,13 @@ app.post('/:lotID', function(req, res){
 // return the current status of empty spots of each parking lot 
 // and the spaces per floor in JSON format.
 function getCurrParkingStatus(){
+    return db.lot[]
+}
 
+// return an int of how many parking spots are available in 
+// that current lot.
+function getParkingSpaceByLot(lotName){
+    
 }
 
 // When a parking space changes from empty to occupy or occupy to empty
