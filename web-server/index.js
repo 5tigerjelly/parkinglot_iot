@@ -1,16 +1,20 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+var bodyParser = require('body-parser')
 const app = express();
-app.use(express.static('public'));
-app.use(bodyParser.urlencoded());
-
+app.use(bodyParser.json());
+app.listen(3000);
+// app.configure(function(){
+//     app.use(express.bodyParser());
+//     app.use(app.router);
+//   });
 var db = require('./db');
+
 
 // this will be used by the client devices to get status of all lots
 // will return every lot and their number of free spots
 app.get('/', function(req, res){
-    getCurrParkingStatus()
-    res.json(/* some json object*/); // this is how you return josn obejects
+    // getCurrParkingStatus()
+    res.json({'test':'hello'}); // this is how you return josn obejects
 });
 
 // a GET request will be made with the lotID
@@ -23,11 +27,15 @@ app.get('/:lotID', function(req, res){
 // and the corresponding information such as 
 // lot isOccupied or lisencePlateNumber
 app.post('/', function(req, res){
-    console.log(req.body.lotID);
-    console.log(req.body.floor);
-    console.log(req.body.spaceID); // 
-    console.log(req.body.isOccupy);
-    updateParkingSpace();
+    res.json(req.body);
+    console.log(req.body.lotID)
+    // console.log(req);
+    // console.log(req.body);
+    // console.log(req.body.lotID);
+    // console.log(req.body.floor);
+    // console.log(req.body.spaceID); // 
+    // console.log(req.body.isOccupy);
+    // updateParkingSpace();
 });
 
 // return the current status of empty spots of each parking lot 
