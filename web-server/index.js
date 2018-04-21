@@ -1,9 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-app.use(express.static('public'));
-app.use(bodyParser.urlencoded());
-
+//app.use(express.static('public'));
+//app.use(bodyParser.urlencoded());
+app.listen(
+    3000,
+    console.log("Listening on port 3000")
+);
 var db = require('./db');
 
 // this will be used by the client devices to get status of all lots
@@ -33,13 +36,15 @@ app.post('/', function(req, res){
 // return the current status of empty spots of each parking lot 
 // and the spaces per floor in JSON format.
 function getCurrParkingStatus(){
-    return db.lot[]
+    
 }
 
 // return an int of how many parking spots are available in 
 // that current lot.
 function getParkingSpaceByLot(lotName){
-    
+    for (var lot in db.lot) {
+        console.log(lot);
+    }
 }
 
 // When a parking space changes from empty to occupy or occupy to empty
