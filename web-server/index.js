@@ -10,6 +10,7 @@ var db = require('./db');
 // will return every lot and their number of free spots
 app.get('/', function(req, res){
     getCurrParkingStatus()
+    res.json(/* some json object*/); // this is how you return josn obejects
 });
 
 // a GET request will be made with the lotID
@@ -21,7 +22,11 @@ app.get('/:lotID', function(req, res){
 // a POST request will be made with the lotID 
 // and the corresponding information such as 
 // lot isOccupied or lisencePlateNumber
-app.post('/:lotID', function(req, res){
+app.post('/', function(req, res){
+    console.log(req.body.lotID);
+    console.log(req.body.floor);
+    console.log(req.body.spaceID); // 
+    console.log(req.body.isOccupy);
     updateParkingSpace();
 });
 
