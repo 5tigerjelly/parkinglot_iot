@@ -39,8 +39,7 @@ app.get('/:lotID/:floor/:spaceID', function(req, res){
 // a GET request will be made with the lotID
 // only returns if the lotID is full or not (boolean)
 app.get('/:lotID', function (req, res) {
-    var freeSpace = getParkingSpaceByLot(req.params.lotID);
-    res.json(freeSpace);
+    res.json(db['lot'][req.params.lotID]);
 });
 
 
