@@ -6,6 +6,7 @@ var log = require('fs');
 const app = express();
 var cors = require('cors');
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.listen(3000);
 
@@ -67,15 +68,16 @@ app.post('/sms', (req, res) => {
     var SMSBody = req.body.Body;
     if (SMSBody.toLowerCase().includes("where")) {
         // use phone number to find location
-        SMSBody = getLicenseByPhoneNumber(fromNumber)
+        SMSBody = getLicenseByPhoneNumber(fromNumber);
     }
     if (!SMSBody.includes("sorry but we could")) {
         SMSBody = getLocationByLicense(SMSBody);
     }
-    const twiml = new MessagingResponse();
-    twiml.message(SMSBody);
+    const response = new MessagingResponse();
+    const message = response.message();
+    message.body(SMSBody);
     res.writeHead(200, { 'Content-Type': 'text/xml' });
-    res.end(twiml.toString());
+    res.end(response.toString());
 });
 
 app.post('/testsms', (req, res) => {
@@ -108,8 +110,8 @@ function getParkingSpaceByLot(lotName) {
 
 function getLicenseByPhoneNumber(phoneNumber) {
     for (var user in db['user']) {
-        if (user['phone'] == phoneNumber) {
-            return user['license'];
+        if ('phone' in db['user'][user] && db['user'][user]['phone'] == phoneNumber) {
+            return db['user'][user]['license'];
         }
     }
     return "sorry, your number is not registered in our system";
@@ -118,13 +120,13 @@ function getLicenseByPhoneNumber(phoneNumber) {
 function getLocationByLicense(license) {
     license = license.toLowerCase();
     for (var lot in db['lot']) {
-        for (var floor in lot) {
+        for (var floor in db['lot'][lot]) {
             if (floor != "emptySpace") {
-                for (var space in floor) {
+                for (var space in db['lot'][lot][floor]) {
                     if (space != "emptySpace") {
-                        if ('licenseID' in space) {
-                            if (space['licenseID'].toLowerCase() == license) {
-                                return lot + " " + floor + " " + space;
+                        if ('license' in db['lot'][lot][floor][space]) {
+                            if (db['lot'][lot][floor][space]['license'].toLowerCase() == license) {
+                                return "Your car is parked at lot: " + lot + " floor: " + floor + " spcae: " + space;
                             }
                         }
                     }
