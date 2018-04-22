@@ -153,23 +153,23 @@ module.exports = {
             },
         },
         "Terrace": {
-            'emptySpace': 10,
+            'emptySpace': 1,
             "P1": {
-                'emptySpace': 2,
+                'emptySpace': 1,
                 1: {},
                 2: {},
                 3: {},
                 4: {},
             },
             "P2": {
-                'emptySpace': 3,
+                'emptySpace': 0,
                 1: {},
                 2: {},
                 3: {},
                 4: {},
             },
             "P3": {
-                'emptySpace': 5,
+                'emptySpace': 0,
                 1: {},
                 2: {},
                 3: {},
@@ -213,8 +213,7 @@ module.exports = {
         },
         "user3": {
             "name": "Elizabeth Duong",
-            "license": "404 AHC",
-            "phone": "+15039150167"
+            "license": "404 AHC"
         },
         "user4": {
             "name": "Wesley Wei",

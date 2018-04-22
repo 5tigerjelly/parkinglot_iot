@@ -191,7 +191,17 @@ function updateParkingSpace(lotID, floor, spaceID, isOccupied) {
     // check every lot and see if they're full    
     // retrun an array with the all the lots that are full
     if (db.lot[lotID][`emptySpace`] == 0) {
-        sendSMS(db.lot[lotID]);
+        sendEveryoneMsg(lotID);
+    }
+}
+
+function sendEveryoneMsg(lot){
+
+    var msg = "Sorry lot " + lot + " is full, please redirect to NP2(27) or NP4(50)"
+    for (var user in db['user']){
+        if ("phone" in db['user'][user]){
+            sendSMS("",db['user'][user]['phone'])
+        }
     }
 }
 
