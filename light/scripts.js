@@ -1,6 +1,6 @@
 'use strict';
 
-var URL = "http://localhost:3000/NP2/P1/3";
+var URL = "http://206.189.71.244/NP2/P3/2";
 
 setInterval(
     get, 
@@ -13,7 +13,7 @@ function get(){
         return response.json();
       })
       .then(function(result) {
-        if (result['isOccupied']){
+        if (result['isOccupied'] == "True"){
             document.body.style.backgroundColor = "red";
             //set red
         }else{
