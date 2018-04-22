@@ -31,24 +31,34 @@ body h5 {
     font-size: 30px;
 }
 
+.table thead tr th {
+    text-align: center;
+}
+
 #tableContainer {
     margin-top: 0px;
     padding-left: 50px;
     padding-right: 50px;
 }
 
-.goodSpace {
-    color: green;
+.goodSpace th, .medSpace th, .lowSpace th {
+    text-align: center;
 }
 
-.medSpace {
-    color: orange;
+.goodSpace td {
+    background-color: green;
 }
 
-.lowSpace {
-    color: red;
+.medSpace td {
+    background-color: orange;
 }
 
-th {
-    color: black;
+.lowSpace td {
+    background-color: red;
+}
+
+.goodSpace td, .medSpace td, .lowSpace td {
+    color: white;
+    text-align: center;
+    font-weight: bold;
 }
