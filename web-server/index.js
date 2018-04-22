@@ -4,7 +4,10 @@ const express = require('express');
 var bodyParser = require('body-parser');
 var log = require('fs');
 const app = express();
+var cors = require('cors');
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 app.listen(3000);
 
 // db
@@ -20,6 +23,16 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 // will return every lot and their number of free spots
 app.get('/', function (req, res) {
     // getCurrParkingStatus()
+    res.json(db.lot);
+    // res.json({'test':'hello'}); // this is how you return josn obejects
+});
+
+app.get('/:lotID/:floor/:spaceID', function(req, res){
+    var lotID = req.params.lotID;
+    var floor = req.params.floor;
+    var spaceID = req.params.spaceID;
+    var isOccupied = getOccupation(lotID, floor, spaceID);
+    res.json({'isOccupied': isOccupied});
     var emptySpotOnAllFloors = getCurrParkingStatus();
     res.json(emptySpotOnAllFloors);
 });
@@ -27,9 +40,15 @@ app.get('/', function (req, res) {
 // a GET request will be made with the lotID
 // only returns if the lotID is full or not (boolean)
 app.get('/:lotID', function (req, res) {
-    var freeSpace = getParkingSpaceByLot(req.params.lotID);
-    res.json(freeSpace);
+    res.json(db['lot'][req.params.lotID]);
 });
+
+
+
+function getOccupation(lotID, floor, spaceID){
+    return db.lot[lotID][floor][spaceID][`isOccupied`];
+}
+
 
 // a POST request will be made with the lotID 
 // and the corresponding information such as 
@@ -49,15 +68,16 @@ app.post('/sms', (req, res) => {
     var SMSBody = req.body.Body;
     if (SMSBody.toLowerCase().includes("where")) {
         // use phone number to find location
-        SMSBody = getLicenseByPhoneNumber(fromNumber)
+        SMSBody = getLicenseByPhoneNumber(fromNumber);
     }
     if (!SMSBody.includes("sorry but we could")) {
         SMSBody = getLocationByLicense(SMSBody);
     }
-    const twiml = new MessagingResponse();
-    twiml.message(SMSBody);
+    const response = new MessagingResponse();
+    const message = response.message();
+    message.body(SMSBody);
     res.writeHead(200, { 'Content-Type': 'text/xml' });
-    res.end(twiml.toString());
+    res.end(response.toString());
 });
 
 app.post('/testsms', (req, res) => {
@@ -90,8 +110,8 @@ function getParkingSpaceByLot(lotName) {
 
 function getLicenseByPhoneNumber(phoneNumber) {
     for (var user in db['user']) {
-        if (user['phone'] == phoneNumber) {
-            return user['license'];
+        if ('phone' in db['user'][user] && db['user'][user]['phone'] == phoneNumber) {
+            return db['user'][user]['license'];
         }
     }
     return "sorry, your number is not registered in our system";
@@ -100,13 +120,13 @@ function getLicenseByPhoneNumber(phoneNumber) {
 function getLocationByLicense(license) {
     license = license.toLowerCase();
     for (var lot in db['lot']) {
-        for (var floor in lot) {
+        for (var floor in db['lot'][lot]) {
             if (floor != "emptySpace") {
-                for (var space in floor) {
+                for (var space in db['lot'][lot][floor]) {
                     if (space != "emptySpace") {
-                        if ('licenseID' in space) {
-                            if (space['licenseID'].toLowerCase() == license) {
-                                return lot + " " + floor + " " + space;
+                        if ('license' in db['lot'][lot][floor][space]) {
+                            if (db['lot'][lot][floor][space]['license'].toLowerCase() == license) {
+                                return "Your car is parked at lot: " + lot + " floor: " + floor + " spcae: " + space;
                             }
                         }
                     }
