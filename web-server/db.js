@@ -1,33 +1,37 @@
 module.exports = {
     "lot":{
         "NP2":{
-            'space': 0,
+            'emptySpace':20,
             "P1":{
-                'space': 0,
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
                 4:{},
             },
             "P2":{
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
                 4:{},
             },
             "P3":{
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
                 4:{},
             },
             "P4":{
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
                 4:{},
             },
             "P5":{
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
@@ -35,55 +39,65 @@ module.exports = {
             }
         },
         "NP4":{
+            'emptySpace': 36,
             "P1":{
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
                 4:{},
             },
             'P2':{
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
                 4:{},
             },
             "P3":{
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
                 4:{},
             },
             "P4":{
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
                 4:{},
             },
             "P5":{
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
                 4:{},
             },
             "P6":{
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
                 4:{},
             },
             "P7":{
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
                 4:{},
             },
             "P8":{
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
                 4:{},
             },
             "P9":{
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
@@ -91,31 +105,37 @@ module.exports = {
             }
         },
         "NP5":{
+            'emptySpace': 20,
             "P1":{
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
                 4:{},
             },
             "P2":{
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
                 4:{},
             },
             "P3":{
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
                 4:{},
             },
             "P4":{
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
                 4:{},
             },
             "P5":{
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
@@ -123,19 +143,23 @@ module.exports = {
             },
         },
         "Terrace":{
+            'emptySpace': 12,
             "P1":{
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
                 4:{},
             },
             "P2":{
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
                 4:{},
             },
             "P3":{
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
@@ -143,19 +167,23 @@ module.exports = {
             },
         },
         "Tower":{
+            'emptySpace': 12,
             "P1":{
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
                 4:{},
             },
             "P2":{
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
                 4:{},
             },
             "P3":{
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},

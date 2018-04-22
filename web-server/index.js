@@ -29,7 +29,6 @@ app.get('/:lotID', function(req, res){
 // and the corresponding information such as 
 // lot isOccupied or lisencePlateNumber
 app.post('/', function(req, res){
-    console.log(req.body.lotID)
     var lotID = req.body.lotID;
     var floor = req.body.floor;
     var spaceID = req.body.spaceID;
@@ -78,19 +77,30 @@ function getParkingSpaceByFloor(lotName, floorName) {
 // return an int of how many parking spots are available in 
 // that current lot.
 function getParkingSpaceByLot(lotName){
-    return db.lot[lotName]['space'];
+    return db.lot[lotName]['emptySpace'];
 }
 
 // When a parking space changes from empty to occupy or occupy to empty
 // the pi will make a HTTP POST request to this server, update the 
 function updateParkingSpace(lotID, floor, spaceID, isOccupied){
-    // res.json(req.body);
     db.lot[lotID][floor][spaceID]['isOccupied'] = isOccupied;
+    if(isOccupied == true){
+        db.lot[lotID][floor][`emptySpace`] --;
+        db.lot[lotID][`emptySpace`]--;
+    }else{
+        db.lot[lotID][floor][`emptySpace`] ++;
+        db.lot[lotID][`emptySpace`] ++;
+    }
 
-    // lot_is_full = false;
-    // if (lot_is_full) {
-    //     sendSMS();
-    // }
+    // check every lot and see if they're full    
+    // retrun an array with the all the lots that are full
+    for(var lot in db.lot){
+        if(lot[`emptySpace`] == 0){
+            full_lots.push(lot);
+        }
+    }
+    sendSMS(full_lots);
+
 }
 
 // intergrate twillio api to send msg too everyone who did not park yet
