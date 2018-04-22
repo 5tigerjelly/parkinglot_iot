@@ -19,7 +19,7 @@ function createNewEmployee() {
         type: "PUT",
         // Request body
         data: JSON.stringify({ 
-            "name": firstName + lastName,
+            "name": firstName + " " + lastName,
             "userData": licenseNum
         }),
     })
@@ -33,7 +33,7 @@ function createNewEmployee() {
 
 // Gets new employee information to make a new employee
 function getEmployeeData() {
-    var getUserName = document.getElementById("deleteUserId").value;
+    var getUserName = document.getElementById("getUserId").value;
 
     $.ajax({
         url: URI_BASE + getUserName,
@@ -48,10 +48,9 @@ function getEmployeeData() {
     })
     .done(function(data) {
         alert("success");
+        let userDataContainer = document.getElementById("userDataContainer");
         console.log(data);
-        for (var users in userList) {
-            console.log(users);
-        }
+        userDataContainer.innerText = JSON.stringify(data);
     })
     .fail(function() {
         alert("Username not found");
@@ -79,4 +78,29 @@ function deleteEmployee() {
     .fail(function() {
         alert("error");
     });
+}
+
+function addEmployeeFace() {
+    var getUserName = document.getElementById("updateImageUserId").value;
+    var imageUrl = document.getElementById("imageLink").value;
+
+    $.ajax({
+        url: URI_BASE + getUserName + "/persistedFaces",
+        beforeSend: function(xhrObj){
+            // Request headers
+            xhrObj.setRequestHeader("Content-Type","application/json");
+            xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", API_KEY);
+        },
+        type: "POST",
+        // Request body
+        data: JSON.stringify({
+            "url": imageUrl
+        }),
+    })
+    .done(function(data) {
+        alert("success");
+    })
+    .fail(function() {
+        alert("error");
+    });        
 }
