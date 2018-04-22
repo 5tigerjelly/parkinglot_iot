@@ -19,6 +19,28 @@ var twilioCredential = require('./twilio-pw');
 var twilioClient = new twilio(twilioCredential.accountSid, twilioCredential.authToken);
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
+// rekognition
+//const Rekognition = require('node-rekognition');
+// Set your AWS credentials
+//const AWSParameters = {
+//     "accessKeyId": "XXX",
+//     "secretAccessKey": "XXX",
+//     "region": "XXX",
+//     "bucket": "XXX",
+//     "ACL": "XXX" // optional
+// }
+ 
+// const rekognition = new Rekognition(AWSParameters)
+
+/**
+ * Compares a face in the source input image with each face detected in the target input image
+ * 
+ * @param {Object} sourceS3Image 
+ * @param {Object} targetS3Image 
+ * @param {string} threshold (optional. Defaults 90)
+ */
+//const faceMatches = await rekognition.compareFaces(sourceS3Image, targetS3Image, threshold)
+
 // this will be used by the client devices to get status of all lots
 // will return every lot and their number of free spots
 app.get('/', function (req, res) {
