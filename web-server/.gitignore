@@ -1,3 +1,5 @@
-twilio-password.js
+twilio-pw.js
 node_modules/
 npm-debug.log
+aws-cred.js
+images/

@@ -1,6 +1,6 @@
 'use strict';
 
-var URL = "http://206.189.71.244/NP2/P3/2";
+var URL = "http://tmo.5tigerjelly.com/NP2/P3/2";
 
 setInterval(
     get, 

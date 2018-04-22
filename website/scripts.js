@@ -14,7 +14,7 @@ var getUrlParameter = function getUrlParameter(sParam) {
 };
 
 var lot = getUrlParameter('lot');
-var URL = "http://localhost:3000/";
+var URL = "http://tmo.5tigerjelly.com/";
 if (lot){
     URL = URL + lot;
 }

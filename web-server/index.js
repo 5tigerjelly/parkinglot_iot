@@ -1,10 +1,14 @@
 
 // express
 const express = require('express');
-var bodyParser = require('body-parser');
+const fs = require('fs');
+const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
 var log = require('fs');
+const uuidv4 = require('uuid/v4');
 const app = express();
 var cors = require('cors');
+app.use(fileUpload());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
@@ -19,6 +23,16 @@ var twilioCredential = require('./twilio-pw');
 var twilioClient = new twilio(twilioCredential.accountSid, twilioCredential.authToken);
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
+//aws rekognition
+// const Rekognition = require('node-rekognition');
+// const awsCredential = {
+//     "accessKeyId": "AKIAJRPT5XQDY7SNTO7A",
+//     "secretAccessKey": "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",
+//     "region": "us-west-2",
+//     "bucket": "tmohack"
+// };
+// const rekognition = new Rekognition(awsCredential);
+
 // this will be used by the client devices to get status of all lots
 // will return every lot and their number of free spots
 app.get('/', function (req, res) {
@@ -27,12 +41,12 @@ app.get('/', function (req, res) {
     // res.json({'test':'hello'}); // this is how you return josn obejects
 });
 
-app.get('/:lotID/:floor/:spaceID', function(req, res){
+app.get('/:lotID/:floor/:spaceID', function (req, res) {
     var lotID = req.params.lotID;
     var floor = req.params.floor;
     var spaceID = req.params.spaceID;
     var isOccupied = getOccupation(lotID, floor, spaceID);
-    res.json({'isOccupied': isOccupied});
+    res.json({ 'isOccupied': isOccupied });
 });
 
 // a GET request will be made with the lotID
@@ -41,9 +55,36 @@ app.get('/:lotID', function (req, res) {
     res.json(db['lot'][req.params.lotID]);
 });
 
+app.get('/images/:imagePath', function (req, res) {
+    var imageFilePath = req.params.imagePath;
+    var img = fs.readFileSync('./images/' + imageFilePath);
+    res.writeHead(200, { 'Content-Type': 'image/jpg' });
+    res.end(img, 'binary');
+});
 
+app.post('/upload', function (req, res) {
+    console.log(req.files);
+    if (!req.files)
+        return res.status(400).send('No files were uploaded.');
 
-function getOccupation(lotID, floor, spaceID){
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    let sampleFile = req.files.sampleFile;
+
+    // Use the mv() method to place the file somewhere on your server
+    var filePath = './images/' + uuidv4() + '.jpg';
+    sampleFile.mv(filePath, function (err) {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        var imagePaths = "http://localhost:3000" + filePath.substring(1);
+        // const s3Images = await rekognition.uploadToS3(imagePaths, 'images');
+        res.send(filePath);
+    });
+});
+// const collection = await rekognition.createCollection('tmo');
+// console.log(collection);
+
+function getOccupation(lotID, floor, spaceID) {
     return db.lot[lotID][floor][spaceID][`isOccupied`];
 }
 
@@ -150,7 +191,16 @@ function updateParkingSpace(lotID, floor, spaceID, isOccupied) {
     // check every lot and see if they're full    
     // retrun an array with the all the lots that are full
     if (db.lot[lotID][`emptySpace`] == 0) {
-        sendSMS(db.lot[lotID]);
+        sendEveryoneMsg(lotID);
+    }
+}
+
+function sendEveryoneMsg(lot){
+    var msg = "Sorry lot " + lot + " is full, please redirect to NP2(27) or NP4(50)"
+    for (var user in db['user']){
+        if ("phone" in db['user'][user]){
+            sendSMS(msg,db['user'][user]['phone'])
+        }
     }
 }
 
@@ -158,6 +208,7 @@ function updateParkingSpace(lotID, floor, spaceID, isOccupied) {
 //telling them the parkinglot is full (there are multiple lots)
 //ex) "Parking lot A is full, please use lot B and C"
 function sendSMS(msg, to) {
+    // console.log(msg + to);
     twilioClient.messages.create({
         body: msg,
         to: to,
