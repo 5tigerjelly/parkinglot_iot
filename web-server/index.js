@@ -1,14 +1,19 @@
+
+// express
 const express = require('express');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.json());
 app.listen(3000);
-// app.configure(function(){
-//     app.use(express.bodyParser());
-//     app.use(app.router);
-//   });
+
+// db
 var db = require('./db');
 
+// twilio api
+var twilio = require('twilio');
+var twilioCredential = require('./twilio-pw');
+var twilioClient = new twilio(twilioCredential.accountSid, twilioCredential.authToken);
+const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
 // this will be used by the client devices to get status of all lots
 // will return every lot and their number of free spots
@@ -42,6 +47,15 @@ app.post('/', function(req, res){
     // updateParkingSpace();
     res.json();
 });
+
+app.post('/sms', (req, res) => {
+    const twiml = new MessagingResponse();
+  
+    twiml.message('The Robots are coming! Head for the hills!');
+  
+    res.writeHead(200, {'Content-Type': 'text/xml'});
+    res.end(twiml.toString());
+  });
 
 // return the current status of empty spots of each parking lot 
 // and the spaces per floor in JSON format.
@@ -77,6 +91,11 @@ function updateParkingSpace(lotID, floor, spaceID, isOccupied){
 // intergrate twillio api to send msg too everyone who did not park yet
 //telling them the parkinglot is full (there are multiple lots)
 //ex) "Parking lot A is full, please use lot B and C"
-function sendSMS(){
-
+function sendSMS(msg, to){
+    client.messages.create({
+        body: msg,
+        to: to,
+        from: twilioCredential.phoneNumber
+    })
+    .then((message) => console.log(message.sid));
 }
