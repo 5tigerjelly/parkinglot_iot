@@ -33,8 +33,6 @@ app.get('/:lotID/:floor/:spaceID', function(req, res){
     var spaceID = req.params.spaceID;
     var isOccupied = getOccupation(lotID, floor, spaceID);
     res.json({'isOccupied': isOccupied});
-    var emptySpotOnAllFloors = getCurrParkingStatus();
-    res.json(emptySpotOnAllFloors);
 });
 
 // a GET request will be made with the lotID
