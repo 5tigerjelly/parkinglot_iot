@@ -34,19 +34,23 @@ function get(){
     .then(function(response) {
         return response.json();
       })
-      .then(function(result) {        
+      .then(function(result) {  
+        $('tbody').empty();
         for(var info in result){     
             if(info != "emptySpace"){
+                console.log(result[info]["emptySpace"]);
                 var item = {
                     name: info,
                     emptySpace: result[info]["emptySpace"]
                 }
-                var found = infoListofLot.find(function(element) {
-                    return element.name == info;
-                });
-                if(found){
-                    found = item;
-                }else{
+                // var found = infoListofLot.find(function(element) {
+                //     return element.name == info;
+                // });
+                // if(found){
+                //     found = item;
+                //     $("td #"+item.name).text(item.emptySpace);
+                // }else{
+                    
                     console.log(result[info]["emptySpace"]);
                     $("tbody").append($("<tr></tr>")
                     .append($("<th></th>").text(item.name).attr("scope", "row")).attr('id', item.name));
@@ -54,16 +58,13 @@ function get(){
                     let tableData = $("td");
                     if (item.emptySpace >= 30) {
                         $("#"+item.name).append($("<td></td>").text(item.emptySpace)).attr('class', 'goodSpace');
-                        // tableData.attr('class', 'goodSpace');
                     } else if (item.emptySpace < 30 && item.emptySpace > 10) {
                         $("#"+item.name).append($("<td></td>").text(item.emptySpace)).attr('class', 'medSpace');
-                        // tableData.attr('class', 'medSpace');
                     } else {
                         $("#"+item.name).append($("<td></td>").text(item.emptySpace)).attr('class', 'lowSpace');
-                        // tableData.attr('class', 'lowSpace');   
                     }
-                    infoListofLot.push(item);
-                }
+                    // infoListofLot.push(item);
+                // }
             }
         };
     })
