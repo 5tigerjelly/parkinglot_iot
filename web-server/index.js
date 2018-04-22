@@ -2,6 +2,7 @@
 // express
 const express = require('express');
 var bodyParser = require('body-parser');
+var log = require('fs');
 const app = express();
 app.use(bodyParser.json());
 app.listen(3000);
@@ -17,7 +18,7 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
 // this will be used by the client devices to get status of all lots
 // will return every lot and their number of free spots
-app.get('/', function(req, res){
+app.get('/', function (req, res) {
     // getCurrParkingStatus()
     var emptySpotOnAllFloors = getCurrParkingStatus();
     res.json(emptySpotOnAllFloors);
@@ -25,7 +26,7 @@ app.get('/', function(req, res){
 
 // a GET request will be made with the lotID
 // only returns if the lotID is full or not (boolean)
-app.get('/:lotID', function(req, res){
+app.get('/:lotID', function (req, res) {
     var freeSpace = getParkingSpaceByLot(req.params.lotID);
     res.json(freeSpace);
 });
@@ -33,7 +34,7 @@ app.get('/:lotID', function(req, res){
 // a POST request will be made with the lotID 
 // and the corresponding information such as 
 // lot isOccupied or lisencePlateNumber
-app.post('/', function(req, res){
+app.post('/', function (req, res) {
     var lotID = req.body.lotID;
     var floor = req.body.floor;
     var spaceID = req.body.spaceID;
@@ -44,17 +45,30 @@ app.post('/', function(req, res){
 
 // for twilio when user sends text to the api
 app.post('/sms', (req, res) => {
+    var fromNumber = req.body.From;
+    var SMSBody = req.body.Body;
+    if (SMSBody.toLowerCase().includes("where")) {
+        // use phone number to find location
+        SMSBody = getLicenseByPhoneNumber(fromNumber)
+    }
+    if (!SMSBody.includes("sorry but we could")) {
+        SMSBody = getLocationByLicense(SMSBody);
+    }
     const twiml = new MessagingResponse();
-  
-    twiml.message('The Robots are coming! Head for the hills!');
-  
-    res.writeHead(200, {'Content-Type': 'text/xml'});
+    twiml.message(SMSBody);
+    res.writeHead(200, { 'Content-Type': 'text/xml' });
     res.end(twiml.toString());
-  });
+});
+
+app.post('/testsms', (req, res) => {
+    sendSMS("Hello this twilio API is working", "+14155099245");
+    res.writeHead(200, { 'Content-Type': 'text/xml' });
+    res.end();
+});
 
 // return the current status of empty spots of each parking lot 
 // and the spaces per floor in JSON format.
-function getCurrParkingStatus(){
+function getCurrParkingStatus() {
     var currParkingStatus = {};
     for (var lot in db.lot) {
         currParkingStatus[lot] = getParkingSpaceByLot(lot);
@@ -70,25 +84,54 @@ function getParkingSpaceByFloor(lotName, floorName) {
 
 // return an int of how many parking spots are available in 
 // that current lot.
-function getParkingSpaceByLot(lotName){
+function getParkingSpaceByLot(lotName) {
     return db.lot[lotName]['emptySpace'];
+}
+
+function getLicenseByPhoneNumber(phoneNumber) {
+    for (var user in db['user']) {
+        if (user['phone'] == phoneNumber) {
+            return user['license'];
+        }
+    }
+    return "sorry, your number is not registered in our system";
+}
+
+function getLocationByLicense(license) {
+    license = license.toLowerCase();
+    for (var lot in db['lot']) {
+        for (var floor in lot) {
+            if (floor != "emptySpace") {
+                for (var space in floor) {
+                    if (space != "emptySpace") {
+                        if ('licenseID' in space) {
+                            if (space['licenseID'].toLowerCase() == license) {
+                                return lot + " " + floor + " " + space;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return "sorry but we could not found your car";
 }
 
 // When a parking space changes from empty to occupy or occupy to empty
 // the pi will make a HTTP POST request to this server, update the 
-function updateParkingSpace(lotID, floor, spaceID, isOccupied){
+function updateParkingSpace(lotID, floor, spaceID, isOccupied) {
     db.lot[lotID][floor][spaceID]['isOccupied'] = isOccupied;
-    if(isOccupied == true){
-        db.lot[lotID][floor][`emptySpace`] --;
+    if (isOccupied == true) {
+        db.lot[lotID][floor][`emptySpace`]--;
         db.lot[lotID][`emptySpace`]--;
-    }else{
-        db.lot[lotID][floor][`emptySpace`] ++;
-        db.lot[lotID][`emptySpace`] ++;
+    } else {
+        db.lot[lotID][floor][`emptySpace`]++;
+        db.lot[lotID][`emptySpace`]++;
     }
 
     // check every lot and see if they're full    
     // retrun an array with the all the lots that are full
-    if(db.lot[lotID][`emptySpace`] == 0){
+    if (db.lot[lotID][`emptySpace`] == 0) {
         sendSMS(db.lot[lotID]);
     }
 }
@@ -96,11 +139,11 @@ function updateParkingSpace(lotID, floor, spaceID, isOccupied){
 // intergrate twillio api to send msg too everyone who did not park yet
 //telling them the parkinglot is full (there are multiple lots)
 //ex) "Parking lot A is full, please use lot B and C"
-function sendSMS(msg, to){
-    client.messages.create({
+function sendSMS(msg, to) {
+    twilioClient.messages.create({
         body: msg,
         to: to,
         from: twilioCredential.phoneNumber
     })
-    .then((message) => console.log(message.sid));
+        .then((message) => console.log(message.sid));
 }
