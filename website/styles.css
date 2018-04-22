@@ -1,0 +1,54 @@
+html, body {
+    margin: 0;
+}
+
+* {margin: 5vh}
+
+#logoContainer {
+    margin-bottom: 12px;
+}
+
+#logoContainer img {
+    width: 12%;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+body h5 {
+    color: #ff009f;
+    margin: 0px;
+}
+
+.table {
+    margin: 0;
+    font-size: 30px;
+}
+
+#tableContainer {
+    margin-top: 0px;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.goodSpace {
+    color: green;
+}
+
+.medSpace {
+    color: orange;
+}
+
+.lowSpace {
+    color: red;
+}
+
+th {
+    color: black;
+}

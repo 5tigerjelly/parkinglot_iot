@@ -4,12 +4,13 @@
 <head>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>website</title>
+	<title>T-Mobile Parking</title>
     <meta name="description" content="The main ui for displaying information">
 
     <style>
-    * {margin: 5vh}
-        </style>
+        
+    </style>
+    <link rel="stylesheet" type="text/css" href="styles.css">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table-locale-all.js">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -19,17 +20,22 @@
 </head>
 
 <body>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Location</th>
-                <th scope="col">Empty Spaces</th>
-            </tr>
-        </thead>
-        <tbody id="tbody">
-        </tbody>
-    </table>
-
+    <div id="logoContainer">
+        <img class="center" src="images/t-mobile-logo.PNG">
+    </div>
+    <h5 class="text-center">Available T-Mobile Parking Spots</h5>
+    <div id="tableContainer">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Location</th>
+                    <th scope="col">Empty Spaces</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+            </tbody>
+        </table>
+    </div>
    
 </body>
 
