@@ -139,7 +139,7 @@ function getLocationByLicense(license) {
 // the pi will make a HTTP POST request to this server, update the 
 function updateParkingSpace(lotID, floor, spaceID, isOccupied) {
     db.lot[lotID][floor][spaceID]['isOccupied'] = isOccupied;
-    if (isOccupied == true) {
+    if (isOccupied == 'True') {
         db.lot[lotID][floor][`emptySpace`]--;
         db.lot[lotID][`emptySpace`]--;
     } else {
