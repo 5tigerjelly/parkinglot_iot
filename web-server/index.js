@@ -196,11 +196,10 @@ function updateParkingSpace(lotID, floor, spaceID, isOccupied) {
 }
 
 function sendEveryoneMsg(lot){
-
     var msg = "Sorry lot " + lot + " is full, please redirect to NP2(27) or NP4(50)"
     for (var user in db['user']){
         if ("phone" in db['user'][user]){
-            sendSMS("",db['user'][user]['phone'])
+            sendSMS(msg,db['user'][user]['phone'])
         }
     }
 }
@@ -209,6 +208,7 @@ function sendEveryoneMsg(lot){
 //telling them the parkinglot is full (there are multiple lots)
 //ex) "Parking lot A is full, please use lot B and C"
 function sendSMS(msg, to) {
+    // console.log(msg + to);
     twilioClient.messages.create({
         body: msg,
         to: to,
