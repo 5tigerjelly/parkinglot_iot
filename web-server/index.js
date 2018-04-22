@@ -69,13 +69,9 @@ function updateParkingSpace(lotID, floor, spaceID, isOccupied){
 
     // check every lot and see if they're full    
     // retrun an array with the all the lots that are full
-    for(var lot in db.lot){
-        if(lot[`emptySpace`] == 0){
-            full_lots.push(lot);
-        }
+    if(db.lot[lotID][`emptySpace`] == 0){
+        sendSMS(db.lot[lotID]);
     }
-    sendSMS(full_lots);
-
 }
 
 // intergrate twillio api to send msg too everyone who did not park yet
