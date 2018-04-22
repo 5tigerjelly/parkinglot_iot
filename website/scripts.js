@@ -50,7 +50,18 @@ function get(){
                     console.log(result[info]["emptySpace"]);
                     $("tbody").append($("<tr></tr>")
                     .append($("<th></th>").text(item.name).attr("scope", "row")).attr('id', item.name));
-                    $("#"+item.name).append($("<td></td>").text(item.emptySpace));
+                    
+                    let tableData = $("td");
+                    if (item.emptySpace >= 30) {
+                        $("#"+item.name).append($("<td></td>").text(item.emptySpace)).attr('class', 'goodSpace');
+                        // tableData.attr('class', 'goodSpace');
+                    } else if (item.emptySpace < 30 && item.emptySpace > 10) {
+                        $("#"+item.name).append($("<td></td>").text(item.emptySpace)).attr('class', 'medSpace');
+                        // tableData.attr('class', 'medSpace');
+                    } else {
+                        $("#"+item.name).append($("<td></td>").text(item.emptySpace)).attr('class', 'lowSpace');
+                        // tableData.attr('class', 'lowSpace');   
+                    }
                     infoListofLot.push(item);
                 }
             }
