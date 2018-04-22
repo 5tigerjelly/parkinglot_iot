@@ -14,7 +14,8 @@ var db = require('./db');
 // will return every lot and their number of free spots
 app.get('/', function(req, res){
     // getCurrParkingStatus()
-    res.json({'test':'hello'}); // this is how you return josn obejects
+    var emptySpotOnAllFloors = getCurrParkingStatus();
+    res.json(emptySpotOnAllFloors);
 });
 
 // a GET request will be made with the lotID
@@ -47,7 +48,31 @@ app.post('/', function(req, res){
 // return the current status of empty spots of each parking lot 
 // and the spaces per floor in JSON format.
 function getCurrParkingStatus(){
-    
+    var currParkingStatus = {};
+    for (var lot in db.lot) {
+        currParkingStatus[lot] = {
+            "space": getParkingSpaceByLot(lot)
+        } 
+        // for (var floor in db.lot[lot]) {
+        //     currParkingStatus[lot] = {
+        //         "space": getParkingSpaceByLot(lot)
+        //     }
+        // }
+        // currParkingStatus[lot] = getParkingSpaceByLot(lot);
+    // }
+    // for (var floor in db.lot.NP2) {
+    //     currParkingStatus["NP2"] = {
+    //         // "space": getParkingSpaceByLot(lot),
+    //         floor: getParkingSpaceByFloor("NP2", floor)
+    //     }
+    }
+    return currParkingStatus;
+}
+
+// Takes in the lot name (NP2) and floor name (P1) and 
+// returns an int of the current spaces on that floor
+function getParkingSpaceByFloor(lotName, floorName) {
+    return db.lot[lotName][floorName]['space'];
 }
 
 // return an int of how many parking spots are available in 
