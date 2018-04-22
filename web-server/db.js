@@ -3,7 +3,7 @@ module.exports = {
         "NP2":{
             'emptySpace':20,
             "P1":{
-                'emptySpace': 0,
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
@@ -41,28 +41,28 @@ module.exports = {
         "NP4":{
             'emptySpace': 36,
             "P1":{
-                'emptySpace': 0,
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
                 4:{},
             },
             'P2':{
-                'emptySpace': 0,
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
                 4:{},
             },
             "P3":{
-                'emptySpace': 0,
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
                 4:{},
             },
             "P4":{
-                'emptySpace': 0,
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
@@ -145,7 +145,7 @@ module.exports = {
         "Terrace":{
             'emptySpace': 12,
             "P1":{
-                'emptySpace': 0,
+                'emptySpace': 4,
                 1:{},
                 2:{},
                 3:{},
