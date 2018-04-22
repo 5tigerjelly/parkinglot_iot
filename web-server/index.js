@@ -28,13 +28,11 @@ app.get('/:lotID', function(req, res){
 // and the corresponding information such as 
 // lot isOccupied or lisencePlateNumber
 app.post('/', function(req, res){
-    console.log(req.body.lotID)
     var lotID = req.body.lotID;
     var floor = req.body.floor;
     var spaceID = req.body.spaceID;
     var isOccupied = req.body.isOccupied;
-    var isLeft = req.body.isLeft;
-    updateParkingSpace(lotID, floor, spaceID, isOccupied,isLeft);
+    updateParkingSpace(lotID, floor, spaceID, isOccupied);
     // console.log(req);
     // console.log(req.body);
     // console.log(req.body.lotID);
