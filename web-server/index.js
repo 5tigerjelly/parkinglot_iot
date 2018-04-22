@@ -58,19 +58,6 @@ function getCurrParkingStatus(){
     var currParkingStatus = {};
     for (var lot in db.lot) {
         currParkingStatus[lot] = getParkingSpaceByLot(lot);
-        
-        // for (var floor in db.lot[lot]) {
-        //     currParkingStatus[lot] = {
-        //         "space": getParkingSpaceByLot(lot)
-        //     }
-        // }
-        // currParkingStatus[lot] = getParkingSpaceByLot(lot);
-    // }
-    // for (var floor in db.lot.NP2) {
-    //     currParkingStatus["NP2"] = {
-    //         // "space": getParkingSpaceByLot(lot),
-    //         floor: getParkingSpaceByFloor("NP2", floor)
-    //     }
     }
     return currParkingStatus;
 }
