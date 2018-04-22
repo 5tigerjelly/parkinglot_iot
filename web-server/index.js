@@ -38,16 +38,10 @@ app.post('/', function(req, res){
     var spaceID = req.body.spaceID;
     var isOccupied = req.body.isOccupied;
     updateParkingSpace(lotID, floor, spaceID, isOccupied);
-    // console.log(req);
-    // console.log(req.body);
-    // console.log(req.body.lotID);
-    // console.log(req.body.floor);
-    // console.log(req.body.spaceID); // 
-    // console.log(req.body.isOccupy);
-    // updateParkingSpace();
     res.json();
 });
 
+// for twilio when user sends text to the api
 app.post('/sms', (req, res) => {
     const twiml = new MessagingResponse();
   
