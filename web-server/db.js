@@ -1,7 +1,7 @@
 module.exports = {
     "lot": {
         "NP2": {
-            'emptySpace': 27,
+            'emptySpace': 30,
             "P1": {
                 'emptySpace': 2,
                 1: {},
@@ -17,7 +17,7 @@ module.exports = {
                 4: {},
             },
             "P3": {
-                'emptySpace': 5,
+                'emptySpace': 8,
                 1: {},
                 2: {},
                 3: {},

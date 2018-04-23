@@ -13,7 +13,7 @@ function get(){
         return response.json();
       })
       .then(function(result) {
-        if (result['isOccupied'] == "True"){
+        if (result['isOccupied'] == "true"){
             document.body.style.backgroundColor = "red";
             //set red
         }else{

@@ -85,7 +85,7 @@ app.post('/upload', function (req, res) {
 // console.log(collection);
 
 function getOccupation(lotID, floor, spaceID) {
-    return db.lot[lotID][floor][spaceID][`isOccupied`];
+    return db.lot[lotID][floor][spaceID]['isOccupied'];
 }
 
 
